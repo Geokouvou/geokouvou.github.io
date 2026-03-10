@@ -1,79 +1,626 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Georgia Kouvoutsakis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Syne:wght@400;700;800&family=Syne+Mono&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --cream: #f4f0e8;
+      --ink: #1a1612;
+      --rust: #c0492b;
+      --rust-pale: rgba(192, 73, 43, 0.08);
+      --sage: #5a7a5e;
+      --warm-mid: #9a8e7f;
+      --warm-light: #d6cfc3;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 40px;
-      background-color: #f5f5f5;
-      color: #222;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      min-height: 100vh;
+      cursor: none;
+      overflow-x: hidden;
     }
 
-    h1 {
-      margin-bottom: 5px;
+    /* ── CUSTOM CURSOR ── */
+    .cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--rust);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--rust);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.5;
+      transition: all 0.25s ease;
     }
 
-    .subtitle {
-      margin-bottom: 40px;
-      color: #555;
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
     }
 
-    .grid {
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
+      grid-template-rows: auto 1fr auto;
+      padding: 0;
+      overflow: hidden;
+      z-index: 1;
     }
 
-    iframe {
+    /* Large decorative SVG background */
+    .hero-svg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-top {
+      position: relative;
+      z-index: 2;
+      padding: 38px 60px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    .nav-label {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm-mid);
+    }
+
+    .nav-right {
+      text-align: right;
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--warm-mid);
+      line-height: 1.8;
+    }
+
+    /* ── MAIN NAME BLOCK ── */
+    .hero-center {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 60px;
+    }
+
+    .name-block {
+      position: relative;
+    }
+
+    .name-first {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(72px, 11vw, 148px);
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      animation: slideUp 1s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+    }
+
+    .name-last {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 4.5vw, 58px);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-left: 6px;
+      animation: slideUp 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+    }
+
+    .name-rule {
       width: 100%;
-      height: 250px;
-      border-radius: 10px;
+      height: 1px;
+      background: linear-gradient(to right, var(--rust) 120px, var(--warm-light) 300px, transparent);
+      margin: 18px 0 20px;
+      animation: expandWidth 1.2s ease 0.5s both;
     }
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    @keyframes expandWidth {
+      from { transform: scaleX(0); transform-origin: left; }
+      to   { transform: scaleX(1); transform-origin: left; }
     }
 
-    .card h3 {
-      margin-top: 0;
+    .discipline-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      flex-wrap: wrap;
+      animation: fadeIn 1s ease 0.6s both;
+    }
+
+    .discipline-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(14px, 1.8vw, 20px);
+      font-weight: 300;
+      color: var(--warm-mid);
+      letter-spacing: 0.04em;
+    }
+
+    .discipline-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--rust);
+      display: inline-block;
+      vertical-align: middle;
+      opacity: 0.6;
+    }
+
+    .nasa-badge {
+      margin-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--warm-light);
+      padding: 9px 18px;
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rust);
+      background: var(--rust-pale);
+      animation: fadeIn 1s ease 0.8s both;
+      width: fit-content;
+    }
+
+    .nasa-badge::before {
+      content: '★';
+      font-size: 12px;
+    }
+
+    /* ── SCROLL HINT ── */
+    .hero-bottom {
+      position: relative;
+      z-index: 2;
+      padding: 30px 60px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      animation: fadeIn 1.2s ease 1s both;
+    }
+
+    .scroll-hint {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--warm-mid);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--warm-mid));
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.5) translateY(-10px); }
+      50% { opacity: 1; transform: scaleY(1) translateY(0); }
+    }
+
+    /* ── WORK SECTION ── */
+    .work-section {
+      position: relative;
+      z-index: 1;
+      padding: 80px 60px 100px;
+      background: var(--ink);
+    }
+
+    .work-section::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, var(--cream), var(--ink));
+    }
+
+    .work-header {
+      display: flex;
+      align-items: flex-end;
+      gap: 30px;
+      margin-bottom: 64px;
+      padding-top: 20px;
+    }
+
+    .work-title-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.8s ease 0.1s both;
+    }
+
+    .work-title-big span {
+      color: var(--rust);
+    }
+
+    .work-subtitle {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #5a5248;
+      padding-bottom: 12px;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    /* ── PROJECT ITEMS ── */
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 80px 1fr 480px;
+      gap: 40px;
+      align-items: start;
+      padding: 40px 0;
+      border-top: 1px solid rgba(244, 240, 232, 0.07);
+      transition: background 0.4s ease;
+      cursor: pointer;
+    }
+
+    .project-item:last-child {
+      border-bottom: 1px solid rgba(244, 240, 232, 0.07);
+    }
+
+    .project-item:hover .project-video-wrap {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    .project-num {
+      font-family: 'Syne Mono', monospace;
+      font-size: 11px;
+      color: #3d3730;
+      letter-spacing: 0.1em;
+      padding-top: 6px;
+    }
+
+    .project-meta {}
+
+    .project-tag {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 300;
+      font-style: italic;
+      color: #6b6258;
+      line-height: 1.7;
+      max-width: 380px;
+    }
+
+    .project-video-wrap {
+      position: relative;
+      border-radius: 2px;
+      overflow: hidden;
+      opacity: 0.75;
+      transform: translateY(4px);
+      transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+      aspect-ratio: 16/9;
+    }
+
+    .project-video-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(244, 240, 232, 0.08);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .project-video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      padding: 40px 60px;
+      border-top: 1px solid rgba(244,240,232,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-sig {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: #3d3730;
+    }
+
+    .footer-meta {
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #3d3730;
+      text-align: right;
+      line-height: 1.8;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-top, .hero-center, .hero-bottom, .work-section, footer {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .project-item {
+        grid-template-columns: 40px 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .project-video-wrap {
+        grid-column: 1 / -1;
+        opacity: 1;
+        transform: none;
+      }
     }
   </style>
 </head>
-
 <body>
 
-<h1>Georgia Kouvoutsakis</h1>
-<div class="subtitle">
-Ph.D. Candidate | Electrical and Computer Engineering| Human–Robot Interaction | Intelligent Control Systems|
-NASA Space Grant Consortium Fellow
-</div>
+  <!-- Custom cursor -->
+  <div class="cursor cursor-ring" id="cursorRing"></div>
+  <div class="cursor cursor-dot" id="cursorDot"></div>
 
-<h2>Project Demos</h2>
+  <!-- ── HERO ── -->
+  <section class="hero">
 
-<div class="grid">
+    <!-- Decorative SVG orbits -->
+    <svg class="hero-svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="1080" cy="420" rx="340" ry="340" stroke="#c0492b" stroke-width="0.5" stroke-dasharray="4 10" opacity="0.18"/>
+      <ellipse cx="1080" cy="420" rx="220" ry="100" stroke="#c0492b" stroke-width="0.4" stroke-dasharray="2 8" transform="rotate(-28 1080 420)" opacity="0.12"/>
+      <ellipse cx="1080" cy="420" rx="480" ry="480" stroke="#9a8e7f" stroke-width="0.3" stroke-dasharray="1 14" opacity="0.08"/>
+      <line x1="1080" y1="40" x2="1080" y2="800" stroke="#9a8e7f" stroke-width="0.3" opacity="0.06"/>
+      <line x1="600" y1="420" x2="1380" y2="420" stroke="#9a8e7f" stroke-width="0.3" opacity="0.06"/>
+      <circle cx="1300" cy="300" r="4" fill="#c0492b" opacity="0.35"/>
+      <circle cx="860" cy="530" r="2.5" fill="#c0492b" opacity="0.2"/>
+      <line x1="1300" y1="300" x2="1330" y2="270" stroke="#c0492b" stroke-width="0.5" opacity="0.3"/>
+      <text x="1336" y="268" fill="#c0492b" font-family="monospace" font-size="9" opacity="0.3" letter-spacing="1">HRI</text>
+      <line x1="860" y1="530" x2="828" y2="555" stroke="#9a8e7f" stroke-width="0.5" opacity="0.2"/>
+      <text x="796" y="568" fill="#9a8e7f" font-family="monospace" font-size="8" opacity="0.2" letter-spacing="1">NAO</text>
+      <path d="M60 60 L60 90 M60 60 L90 60" stroke="#1a1612" stroke-width="1" opacity="0.12"/>
+      <path d="M1340 840 L1340 810 M1340 840 L1310 840" stroke="#1a1612" stroke-width="1" opacity="0.12"/>
+      <g opacity="0.04">
+        <line x1="60" y1="780" x2="200" y2="780" stroke="#1a1612" stroke-width="0.5"/>
+        <line x1="60" y1="800" x2="200" y2="800" stroke="#1a1612" stroke-width="0.5"/>
+        <line x1="60" y1="820" x2="200" y2="820" stroke="#1a1612" stroke-width="0.5"/>
+        <line x1="80" y1="760" x2="80" y2="840" stroke="#1a1612" stroke-width="0.5"/>
+        <line x1="100" y1="760" x2="100" y2="840" stroke="#1a1612" stroke-width="0.5"/>
+        <line x1="120" y1="760" x2="120" y2="840" stroke="#1a1612" stroke-width="0.5"/>
+        <line x1="140" y1="760" x2="140" y2="840" stroke="#1a1612" stroke-width="0.5"/>
+      </g>
+    </svg>
 
-  <div class="card">
-    <h3>Wall-following lab challenge I designed for my class as a teaching assistant: Programming Practical Robots</h3>
-    <iframe src="https://www.youtube.com/embed/dGdEawQ67hI" allowfullscreen></iframe>
-  </div>
+    <div class="hero-top">
+      <div class="nav-label">Portfolio · 2025</div>
+      <div class="nav-right">
+        Electrical &amp; Computer Engineering<br>
+        Ph.D. Candidate
+      </div>
+    </div>
 
-  <div class="card">
-    <h3>IMU Real-Time Classification Algorithm for Interlimb-Coordination, NAO and Drone Interaction</h3>
-    <iframe src="https://www.youtube.com/embed/pBYC9M7PhZQ" allowfullscreen></iframe>
-  </div>
+    <div class="hero-center">
+      <div class="name-block">
+        <div class="name-first">Georgia</div>
+        <div class="name-last">Kouvoutsakis</div>
+        <div class="name-rule"></div>
+        <div class="discipline-row">
+          <span class="discipline-item">Human–Robot Interaction</span>
+          <span class="discipline-dot"></span>
+          <span class="discipline-item">Intelligent Control</span>
+          <span class="discipline-dot"></span>
+          <span class="discipline-item">Humanoid Systems</span>
+        </div>
+        <div class="nasa-badge">NASA Space Grant Consortium Fellow</div>
+      </div>
+    </div>
 
-  <div class="card">
-    <h3>Train Like An Astronaut with NAO - Real-Time Interaction & Humanoid Kinematics</h3>
-    <iframe src="https://www.youtube.com/embed/ffeUuoQtXVI" allowfullscreen></iframe>
-  </div>
+    <div class="hero-bottom">
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        Scroll
+      </div>
+      <div class="nav-label" style="text-align:right;">Selected Works ↓</div>
+    </div>
+  </section>
 
-</div>
+  <!-- ── WORK ── -->
+  <section class="work-section">
+    <div class="work-header">
+      <div>
+        <div class="work-subtitle">Selected Research &amp; Teaching</div>
+        <div class="work-title-big">Project<br><span>Demos</span></div>
+      </div>
+    </div>
 
+    <div class="projects">
+
+      <div class="project-item">
+        <div class="project-num">001</div>
+        <div class="project-meta">
+          <div class="project-tag">Teaching · Robotics</div>
+          <div class="project-name">Wall-Following<br>Lab Challenge</div>
+          <div class="project-desc">Designed as a teaching assistant for Programming Practical Robots — guiding students through sensor-driven autonomous navigation.</div>
+        </div>
+        <div class="project-video-wrap">
+          <iframe src="https://www.youtube.com/embed/dGdEawQ67hI" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-num">002</div>
+        <div class="project-meta">
+          <div class="project-tag">Classification · HRI</div>
+          <div class="project-name">IMU Real-Time<br>Classification</div>
+          <div class="project-desc">Real-time interlimb-coordination algorithm using IMU data to enable fluid interaction between a NAO humanoid and a drone.</div>
+        </div>
+        <div class="project-video-wrap">
+          <iframe src="https://www.youtube.com/embed/pBYC9M7PhZQ" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-num">003</div>
+        <div class="project-meta">
+          <div class="project-tag">Kinematics · Space</div>
+          <div class="project-name">Train Like<br>An Astronaut</div>
+          <div class="project-desc">NAO humanoid as a physical trainer — real-time interaction and kinematics mirroring for astronaut conditioning exercises.</div>
+        </div>
+        <div class="project-video-wrap">
+          <iframe src="https://www.youtube.com/embed/ffeUuoQtXVI" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── */
+  <footer>
+    <div class="footer-sig">Georgia Kouvoutsakis</div>
+    <div class="footer-meta">
+      Ph.D. Research Portfolio<br>
+      Electrical &amp; Computer Engineering
+    </div>
+  </footer>
+
+  <script>
+    // Cursor
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    // Hover effect on project items
+    document.querySelectorAll('.project-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.opacity = '0.3';
+      });
+      item.addEventListener('mouseleave', () => {
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+        ring.style.opacity = '0.5';
+      });
+    });
+
+    // Scroll-triggered fade for project items
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.project-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
