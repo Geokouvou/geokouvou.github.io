@@ -442,6 +442,12 @@
       grid-template-columns: 1fr;
     }
 
+    /* wide timeline on the left, compact learning plot on the right */
+    .project-figures.asym {
+      grid-template-columns: 5fr 3fr;
+      align-items: start;
+    }
+
     .project-figures figure {
       margin: 0;
     }
@@ -473,12 +479,25 @@
 
     .project-note {
       grid-column: 2 / -1;
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 9px 16px;
+      border: 1px solid rgba(192, 73, 43, 0.35);
+      border-left: 3px solid var(--rust);
+      background: rgba(192, 73, 43, 0.08);
       font-family: 'Syne Mono', monospace;
       font-size: 10px;
-      letter-spacing: 0.12em;
-      color: #4a443c;
-      line-height: 1.7;
-      margin-top: 4px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cream);
+      line-height: 1.6;
+    }
+
+    .project-note .status {
+      color: var(--rust);
     }
 
     /* ── FOOTER ── */
@@ -558,7 +577,8 @@
         grid-column: 1 / -1;
       }
 
-      .project-figures {
+      .project-figures,
+      .project-figures.asym {
         grid-template-columns: 1fr;
       }
     }
@@ -685,7 +705,7 @@
         <div class="project-video-wrap">
           <iframe src="https://www.youtube.com/embed/pBYC9M7PhZQ" allowfullscreen loading="lazy"></iframe>
         </div>
-        <div class="project-figures">
+        <div class="project-figures asym">
           <figure>
             <img src="assets/tcds_closedloop.png" alt="One closed-loop session: leg angular velocity, filtered signals, detected coordination mode, and aerial robot position over time">
             <figcaption><strong>One session, end to end.</strong> Raw and filtered leg IMU signals (top), the detected coordination mode with correct and incorrect classifications (middle), and the aerial robot's position (bottom): its height oscillates only during in-phase bouts.</figcaption>
@@ -695,7 +715,7 @@
             <figcaption><strong>The NAO learns.</strong> Softmax selection probability for each coordination mode across episodes. During acquisition the humanoid converges on the rewarded in-phase cue; when the reward is removed (extinction), the preference decays.</figcaption>
           </figure>
         </div>
-        <div class="project-note">Manuscript submitted to IEEE Transactions on Cognitive and Developmental Systems — under review.</div>
+        <div class="project-note"><span class="status">Under review</span> · Manuscript submitted to IEEE Transactions on Cognitive and Developmental Systems</div>
       </div>
 
       <div class="project-item">
