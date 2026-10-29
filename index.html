@@ -116,6 +116,22 @@
       line-height: 1.8;
     }
 
+    .nav-links {
+      margin-top: 8px;
+    }
+
+    .nav-links a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--warm-light);
+      transition: color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--rust);
+      border-color: var(--rust);
+    }
+
     /* ── MAIN NAME BLOCK ── */
     .hero-center {
       position: relative;
@@ -190,8 +206,16 @@
       opacity: 0.6;
     }
 
-    .nasa-badge {
+    /* ── BADGES ── */
+    .badge-row {
       margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      animation: fadeIn 1s ease 0.8s both;
+    }
+
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -203,13 +227,30 @@
       text-transform: uppercase;
       color: var(--rust);
       background: var(--rust-pale);
-      animation: fadeIn 1s ease 0.8s both;
       width: fit-content;
     }
 
-    .nasa-badge::before {
-      content: '★';
-      font-size: 12px;
+    .badge-nasa::before,
+    .badge-afrl::before {
+      content: none;
+    }
+
+    .badge-icon {
+      width: 20px;
+      height: 20px;
+      flex: none;
+    }
+
+    .badge-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .badge-afrl {
+      color: var(--sage);
+      background: rgba(90, 122, 94, 0.08);
     }
 
     /* ── SCROLL HINT ── */
@@ -388,6 +429,58 @@
       display: block;
     }
 
+    /* ── PROJECT FIGURES ── */
+    .project-figures {
+      grid-column: 2 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .project-figures.single {
+      grid-template-columns: 1fr;
+    }
+
+    .project-figures figure {
+      margin: 0;
+    }
+
+    .project-figures img {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+      background: var(--cream);
+      padding: 10px;
+      border: 1px solid rgba(244, 240, 232, 0.08);
+    }
+
+    .project-figures figcaption {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 300;
+      font-style: italic;
+      color: #6b6258;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .project-figures figcaption strong {
+      font-style: normal;
+      font-weight: 400;
+      color: #9a8e7f;
+    }
+
+    .project-note {
+      grid-column: 2 / -1;
+      font-family: 'Syne Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: #4a443c;
+      line-height: 1.7;
+      margin-top: 4px;
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--ink);
@@ -412,6 +505,18 @@
       color: #3d3730;
       text-align: right;
       line-height: 1.8;
+    }
+
+    .footer-meta a {
+      color: var(--warm-mid);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(154, 142, 127, 0.3);
+      transition: color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .footer-meta a:hover {
+      color: var(--rust);
+      border-color: var(--rust);
     }
 
     /* ── KEYFRAMES ── */
@@ -447,6 +552,15 @@
         opacity: 1;
         transform: none;
       }
+
+      .project-figures,
+      .project-note {
+        grid-column: 1 / -1;
+      }
+
+      .project-figures {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -472,7 +586,6 @@
       <text x="1336" y="268" fill="#c0492b" font-family="monospace" font-size="9" opacity="0.3" letter-spacing="1">HRI</text>
       <line x1="860" y1="530" x2="828" y2="555" stroke="#9a8e7f" stroke-width="0.5" opacity="0.2"/>
       <text x="796" y="568" fill="#9a8e7f" font-family="monospace" font-size="8" opacity="0.2" letter-spacing="1">NAO</text>
-      <path d="M60 60 L60 90 M60 60 L90 60" stroke="#1a1612" stroke-width="1" opacity="0.12"/>
       <path d="M1340 840 L1340 810 M1340 840 L1310 840" stroke="#1a1612" stroke-width="1" opacity="0.12"/>
       <g opacity="0.04">
         <line x1="60" y1="780" x2="200" y2="780" stroke="#1a1612" stroke-width="0.5"/>
@@ -486,10 +599,16 @@
     </svg>
 
     <div class="hero-top">
-      <div class="nav-label">Portfolio · 2025</div>
+      <div class="nav-label">Portfolio · 2026</div>
       <div class="nav-right">
         Electrical &amp; Computer Engineering<br>
-        Ph.D. Candidate
+        Ph.D. Candidate · UC Riverside
+        <div class="nav-links">
+          <a href="mailto:gkouv001@ucr.edu">Email</a> &nbsp;·&nbsp;
+          <a href="https://scholar.google.com/citations?user=-3GWDfcAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Scholar</a> &nbsp;·&nbsp;
+          <a href="https://github.com/Geokouvou" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+          <a href="https://www.linkedin.com/in/georgia-kouvoutsakis-36b168b0/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
       </div>
     </div>
 
@@ -504,8 +623,35 @@
           <span class="discipline-item">Real-Time Systems</span>
           <span class="discipline-dot"></span>
           <span class="discipline-item">Signal Processing</span>
+          <span class="discipline-dot"></span>
+          <span class="discipline-item">IMU, EMG, Eye Tracking</span>
         </div>
-        <div class="nasa-badge">NASA Space Grant Consortium Fellow</div>
+        <div class="badge-row">
+          <div class="badge badge-nasa">
+            <span class="badge-icon">
+              <!-- Replace with: <img src="assets/nasa.png" alt="NASA"> -->
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="3.2" fill="currentColor"/>
+                <path d="M7.4 11.6 C8 12.6 9 13.1 10 13.1" stroke="#f4f0e8" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+                <ellipse cx="10" cy="10" rx="9" ry="3.2" stroke="currentColor" stroke-width="1" transform="rotate(-30 10 10)"/>
+                <ellipse cx="10" cy="10" rx="6.5" ry="2.2" stroke="currentColor" stroke-width="0.7" stroke-dasharray="1.6 1.6" transform="rotate(40 10 10)" opacity="0.6"/>
+                <circle cx="16.6" cy="5.6" r="1.3" fill="currentColor"/>
+                <path d="M3.2 3.2 l0.6 1.4 1.4 0.6 -1.4 0.6 -0.6 1.4 -0.6 -1.4 -1.4 -0.6 1.4 -0.6z" fill="currentColor" opacity="0.8"/>
+              </svg>
+            </span>
+            NASA Space Grant Consortium Fellow
+          </div>
+          <div class="badge badge-afrl">
+            <span class="badge-icon">
+              <!-- Replace with: <img src="assets/afrl.png" alt="AFRL"> -->
+              <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 3.2 L12.2 8.6 L18.8 12.6 L17.6 13.8 L13.4 12.1 L12.4 13.9 L10.9 12.5 L10 13.8 L9.1 12.5 L7.6 13.9 L6.6 12.1 L2.4 13.8 L1.2 12.6 L7.8 8.6 Z" fill="currentColor"/>
+                <path d="M10 5.2 L10 12.2" stroke="#f4f0e8" stroke-width="0.6" opacity="0.6"/>
+              </svg>
+            </span>
+            Air Force Research Laboratory (AFRL) · Sensors Directorate · Summer 2026
+          </div>
+        </div>
       </div>
     </div>
 
@@ -532,6 +678,51 @@
       <div class="project-item">
         <div class="project-num">001</div>
         <div class="project-meta">
+          <div class="project-tag">Real-Time Sensing · HRI</div>
+          <div class="project-name">NAO Humanoid–Aerial Robot<br>Closed-Loop Communication</div>
+          <div class="project-desc">Interlimb coordination (ILC) is how the two legs move relative to each other: together (in-phase), alternating (anti-phase), or not coordinated at all. Leg-mounted IMUs stream angular velocity, and three real-time detectors — a moving-window algorithm, a Hilbert-transform phase detector, and an LSTM — classify the ILC mode as it happens. A socially assistive aerial robot (SA²R) responds to each mode: it rises and falls in place when the legs move in-phase and holds position otherwise. The NAO humanoid learns which cue to give next through tabular Q-learning with softmax action selection, closing the loop between the person, the NAO, and the aerial robot.</div>
+        </div>
+        <div class="project-video-wrap">
+          <iframe src="https://www.youtube.com/embed/pBYC9M7PhZQ" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="project-figures">
+          <figure>
+            <img src="assets/tcds_closedloop.png" alt="One closed-loop session: leg angular velocity, filtered signals, detected coordination mode, and aerial robot position over time">
+            <figcaption><strong>One session, end to end.</strong> Raw and filtered leg IMU signals (top), the detected coordination mode with correct and incorrect classifications (middle), and the aerial robot's position (bottom): its height oscillates only during in-phase bouts.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/tcds_learning.png" alt="Selection probability of each coordination mode across learning episodes, acquisition then extinction">
+            <figcaption><strong>The NAO learns.</strong> Softmax selection probability for each coordination mode across episodes. During acquisition the humanoid converges on the rewarded in-phase cue; when the reward is removed (extinction), the preference decays.</figcaption>
+          </figure>
+        </div>
+        <div class="project-note">Manuscript submitted to IEEE Transactions on Cognitive and Developmental Systems — under review.</div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-num">002</div>
+        <div class="project-meta">
+          <div class="project-tag">Kinematics · Space</div>
+          <div class="project-name">Train Like<br>An Astronaut</div>
+          <div class="project-desc">A NAO humanoid leads a 12-session, astronaut-themed training program: it demonstrates and mirrors the exercises in real time and teaches the space science behind each one. Activity was measured with Fitbit step counts every session, and space knowledge with a questionnaire before and after the program. Compared with a control group that trained without the robot, participants who trained with the NAO held their activity level across all twelve sessions and learned more.</div>
+        </div>
+        <div class="project-video-wrap">
+          <iframe src="https://www.youtube.com/embed/ffeUuoQtXVI" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="project-figures">
+          <figure>
+            <img src="assets/tla_steps.png" alt="Fitbit steps per session for control and robot groups across 12 sessions, with group and gender comparisons">
+            <figcaption><strong>Keeping up the effort.</strong> Fitbit steps per session (warm-up + crawl). The control group's activity dropped over the twelve sessions; the group training with the NAO stayed flat. Right: overall steps by group and by gender.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/tla_knowledge.png" alt="Space-knowledge scores before and after the program for control and robot groups, and by gender">
+            <figcaption><strong>Learning while training.</strong> Space-knowledge scores before and after the program. Both groups improved, but the group taught by the NAO gained significantly more. Right: the same gain split by gender.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="project-item">
+        <div class="project-num">003</div>
+        <div class="project-meta">
           <div class="project-tag">Teaching · Robotics</div>
           <div class="project-name">Wall-Following<br>Lab Challenge</div>
           <div class="project-desc">Designed as a teaching assistant for Programming Practical Robots — guiding students through sensor-driven autonomous navigation.</div>
@@ -541,39 +732,16 @@
         </div>
       </div>
 
-      <div class="project-item">
-        <div class="project-num">002</div>
-        <div class="project-meta">
-          <div class="project-tag">Classification · HRI</div>
-          <div class="project-name">IMU Real-Time<br>Classification</div>
-          <div class="project-desc">Real-time interlimb-coordination algorithm using IMU data to enable fluid interaction between a NAO humanoid and a drone.</div>
-        </div>
-        <div class="project-video-wrap">
-          <iframe src="https://www.youtube.com/embed/pBYC9M7PhZQ" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-
-      <div class="project-item">
-        <div class="project-num">003</div>
-        <div class="project-meta">
-          <div class="project-tag">Kinematics · Space</div>
-          <div class="project-name">Train Like<br>An Astronaut</div>
-          <div class="project-desc">NAO humanoid as a physical trainer — real-time interaction and kinematics mirroring for astronaut conditioning exercises.</div>
-        </div>
-        <div class="project-video-wrap">
-          <iframe src="https://www.youtube.com/embed/ffeUuoQtXVI" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ── FOOTER ── */
+  <!-- ── FOOTER ── -->
   <footer>
     <div class="footer-sig">Georgia Kouvoutsakis</div>
     <div class="footer-meta">
-      Ph.D. Research Portfolio<br>
-      Electrical &amp; Computer Engineering
+      <a href="mailto:gkouv001@ucr.edu">gkouv001@ucr.edu</a><br>
+      <a href="https://www.linkedin.com/in/georgia-kouvoutsakis-36b168b0/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;·&nbsp; <a href="https://github.com/Geokouvou" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp; <a href="https://scholar.google.com/citations?user=-3GWDfcAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar</a><br>
+      Electrical &amp; Computer Engineering · UC Riverside
     </div>
   </footer>
 
